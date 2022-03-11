@@ -1,0 +1,26 @@
+# Vim swap files
+*.swp
+
+# Python byte code files
+*.pyc
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# virtual environment directories
+.venv
+
+# binary file formats
+*.pdf
+*.zip
+*.png
+*.mp4
+*.mkv
+*.jpg
+*.jpeg
+*.pickle
+*.docx
+*.7z
+
+# other file formats
+*.html
