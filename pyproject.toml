@@ -3,6 +3,7 @@ name = "RNA-Seq_data_retrieval"
 version = "0.1.0"
 description = ""
 authors = ["William Stark <william@ebi.ac.uk>"]
+license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = "^3.9"
