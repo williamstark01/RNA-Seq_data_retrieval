@@ -24,3 +24,6 @@
 
 # other file formats
 *.html
+
+*.csv
+*.json
