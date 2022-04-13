@@ -33,6 +33,7 @@ def get_taxon_metadata(
     taxon_id,
     instrument_platform="illumina",
     library_source="TRANSCRIPTOMIC",
+    limit=0,
 ):
     """
     """
@@ -68,6 +69,7 @@ def get_taxon_metadata(
         "format": "JSON",
         "instrument_platform": instrument_platform,
         "library_source": library_source,
+        "limit": limit,
         "fields": str.join(",", fields),
     }
 
