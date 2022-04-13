@@ -29,8 +29,34 @@ import requests
 # project imports
 
 
+selected_fields = [
+    "run_accession",
+    "study_accession",
+    "experiment_accession",
+    "sample_accession",
+    "secondary_sample_accession",
+    "instrument_platform",
+    "instrument_model",
+    "library_layout",
+    "library_strategy",
+    "read_count",
+    "base_count",
+    "fastq_ftp",
+    "fastq_aspera",
+    "fastq_md5",
+    "library_source",
+    "library_selection",
+    "center_name",
+    "study_alias",
+    "experiment_alias",
+    "experiment_title",
+    "study_title",
+]
+
+
 def get_taxon_metadata(
     taxon_id,
+    fields=selected_fields,
     instrument_platform="illumina",
     library_source="TRANSCRIPTOMIC",
     limit=0,
@@ -38,30 +64,6 @@ def get_taxon_metadata(
     """
     """
     base_url = "https://www.ebi.ac.uk/ena/portal/api/search"
-
-    fields = [
-        "run_accession",
-        "study_accession",
-        "experiment_accession",
-        "sample_accession",
-        "secondary_sample_accession",
-        "instrument_platform",
-        "instrument_model",
-        "library_layout",
-        "library_strategy",
-        "read_count",
-        "base_count",
-        "fastq_ftp",
-        "fastq_aspera",
-        "fastq_md5",
-        "library_source",
-        "library_selection",
-        "center_name",
-        "study_alias",
-        "experiment_alias",
-        "experiment_title",
-        "study_title",
-    ]
 
     parameters = {
         "query": f"tax_tree({taxon_id})",
