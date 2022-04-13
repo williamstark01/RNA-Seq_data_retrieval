@@ -56,7 +56,7 @@ original_fields = [
 
 # additional fields that seem to be useful in identifying a proper sample source name
 additional_fields = [
-    "sample_alias",
+    "tissue_type",
 ]
 
 # all_fields - (original_fields + additional_fields)
@@ -86,6 +86,7 @@ remaining_fields = [
     "cram_index_ftp",
     "cram_index_aspera",
     "cram_index_galaxy",
+    "sample_alias",
     "broker_name",
     "nominal_sdev",
     "first_created",
@@ -120,7 +121,6 @@ remaining_fields = [
     "sub_species",
     "sub_strain",
     "tissue_lib",
-    "tissue_type",
     "variety",
     "checklist",
     "depth",
@@ -364,9 +364,9 @@ def main():
 
     # download taxon_id metadata
     if args.taxon_id:
-        fields = original_fields
+        # fields = original_fields
         # fields = original_fields + additional_fields
-        # fields = original_fields + additional_fields + remaining_fields
+        fields = original_fields + additional_fields + remaining_fields
         # fields = all_fields
         save_taxon_metadata(args.taxon_id, file_type=args.file_type, fields=fields)
 
