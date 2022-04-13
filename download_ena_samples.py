@@ -29,6 +29,7 @@ import requests
 # project imports
 
 
+# fields currently used in the eHive module
 original_fields = [
     "run_accession",
     "study_accession",
@@ -53,10 +54,12 @@ original_fields = [
     "study_title",
 ]
 
+# additional fields that seem to be useful in identifying a proper sample source name
 additional_fields = [
     "sample_alias",
 ]
 
+# all_fields - (original_fields + additional_fields)
 remaining_fields = [
     "secondary_study_accession",
     "submission_accession",
@@ -166,6 +169,8 @@ remaining_fields = [
     "submission_tool",
 ]
 
+# all available fields for taxonomic ID metadata query
+# https://www.ebi.ac.uk/ena/portal/api/returnFields?query=tax_tree()&result=read_run
 all_fields = [
     "study_accession",
     "secondary_study_accession",
@@ -300,19 +305,22 @@ all_fields = [
 
 def get_taxon_metadata(
     taxon_id,
+    file_type="JSON",
     fields=original_fields,
     instrument_platform="illumina",
     library_source="TRANSCRIPTOMIC",
     limit=0,
 ):
     """
+    API endpoint docs:
+    https://www.ebi.ac.uk/ena/portal/api/#/Portal%20API/searchUsingGET
     """
     base_url = "https://www.ebi.ac.uk/ena/portal/api/search"
 
     parameters = {
         "query": f"tax_tree({taxon_id})",
         "result": "read_run",
-        "format": "JSON",
+        "format": file_type,
         "instrument_platform": instrument_platform,
         "library_source": library_source,
         "limit": limit,
@@ -325,10 +333,10 @@ def get_taxon_metadata(
     return response.content
 
 
-def save_taxon_metadata(taxon_id, fields=original_fields):
+def save_taxon_metadata(taxon_id, file_type="JSON", fields=original_fields):
     """
     """
-    taxon_metadata = get_taxon_metadata(taxon_id, fields=fields)
+    taxon_metadata = get_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
 
     taxon_metadata_path = f"taxon_id={taxon_id}.json"
     with open(taxon_metadata_path, "wb+") as file:
@@ -343,16 +351,24 @@ def main():
     argument_parser.add_argument(
         "--taxon_id",
         type=str,
-        help="taxonomic ID"
+        help="taxonomic ID",
+    )
+    argument_parser.add_argument(
+        "--file_type",
+        type=str,
+        default="JSON",
+        help="output file type",
     )
 
     args = argument_parser.parse_args()
 
     # download taxon_id metadata
     if args.taxon_id:
+        fields = original_fields
         # fields = original_fields + additional_fields
-        fields = all_fields
-        save_taxon_metadata(args.taxon_id, fields=fields)
+        # fields = original_fields + additional_fields + remaining_fields
+        # fields = all_fields
+        save_taxon_metadata(args.taxon_id, file_type=args.file_type, fields=fields)
 
     else:
         argument_parser.print_help()
