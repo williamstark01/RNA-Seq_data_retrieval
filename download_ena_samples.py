@@ -357,7 +357,7 @@ def main():
         "--file_type",
         type=str,
         default="JSON",
-        help="output file type",
+        help="output file type, one of [JSON, CSV]",
     )
 
     args = argument_parser.parse_args()
