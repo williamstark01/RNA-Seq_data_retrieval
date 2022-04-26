@@ -339,7 +339,9 @@ def download_taxon_metadata(
 ):
     taxon_metadata = get_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
 
-    taxon_metadata_path = pathlib.Path(output_directory) / f"taxon_id={taxon_id}.json"
+    extension = file_type.lower()
+
+    taxon_metadata_path = pathlib.Path(output_directory) / f"taxon_id={taxon_id}.{extension}"
     with open(taxon_metadata_path, "wb+") as file:
         file.write(taxon_metadata)
 
