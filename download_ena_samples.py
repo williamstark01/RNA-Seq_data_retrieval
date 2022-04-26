@@ -21,6 +21,7 @@ Download RNA-Seq samples and metadata from ENA.
 
 # standard library imports
 import argparse
+import pathlib
 import sys
 
 # third party imports
@@ -333,12 +334,12 @@ def get_taxon_metadata(
     return response.content
 
 
-def save_taxon_metadata(taxon_id, file_type="JSON", fields=original_fields):
-    """
-    """
+def download_taxon_metadata(
+    taxon_id, file_type="JSON", fields=original_fields, output_directory="."
+):
     taxon_metadata = get_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
 
-    taxon_metadata_path = f"taxon_id={taxon_id}.json"
+    taxon_metadata_path = pathlib.Path(output_directory) / f"taxon_id={taxon_id}.json"
     with open(taxon_metadata_path, "wb+") as file:
         file.write(taxon_metadata)
 
@@ -359,6 +360,11 @@ def main():
         default="JSON",
         help="output file type, one of [JSON, CSV]",
     )
+    argument_parser.add_argument(
+        "--output_directory",
+        type=str,
+        help="output directory path",
+    )
 
     args = argument_parser.parse_args()
 
@@ -368,7 +374,18 @@ def main():
         # fields = original_fields + additional_fields
         fields = original_fields + additional_fields + remaining_fields
         # fields = all_fields
-        save_taxon_metadata(args.taxon_id, file_type=args.file_type, fields=fields)
+
+        if args.output_directory is None:
+            output_directory = "/data"
+        else:
+            output_directory = args.output_directory
+
+        download_taxon_metadata(
+            args.taxon_id,
+            file_type=args.file_type,
+            fields=fields,
+            output_directory=output_directory,
+        )
 
     else:
         argument_parser.print_help()
