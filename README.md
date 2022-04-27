@@ -13,6 +13,14 @@ python download_ena_samples.py --taxon_id <taxon_id>
 python download_ena_samples.py --taxon_id 8030
 ```
 
+arguments
+```
+  --taxon_id TAXON_ID   taxonomic ID
+  --file_type FILE_TYPE
+                        output file type, one of [JSON, CSV]
+  --output_directory OUTPUT_DIRECTORY
+```
+
 
 ## create Singularity image
 
@@ -36,14 +44,7 @@ singularity pull docker://williamebi/rna_seq_data_retrieval
 
 ```
 SINGULARITY_IMAGE=<Singularity image path>; OUTPUT_DIRECTORY=<output directory>; TAXON_ID=<taxonomy ID>; singularity run --bind "$OUTPUT_DIRECTORY":/data "$SINGULARITY_IMAGE" --taxon_id "$TAXON_ID"
-```
 
-
-## arguments
-
-```
-  --taxon_id TAXON_ID   taxonomic ID
-  --file_type FILE_TYPE
-                        output file type, one of [JSON, CSV]
-  --output_directory OUTPUT_DIRECTORY
+# download metadata in CSV format
+SINGULARITY_IMAGE=<Singularity image path>; OUTPUT_DIRECTORY=<output directory>; TAXON_ID=<taxonomy ID>; singularity run --bind "$OUTPUT_DIRECTORY":/data "$SINGULARITY_IMAGE" --taxon_id "$TAXON_ID" --file_type CSV
 ```
