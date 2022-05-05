@@ -43,8 +43,8 @@ singularity pull docker://williamebi/rna_seq_data_retrieval
 ## download metadata with Singularity
 
 ```
-SINGULARITY_IMAGE=<Singularity image path>; OUTPUT_DIRECTORY=<output directory>; TAXON_ID=<taxonomy ID>; singularity run --bind "$OUTPUT_DIRECTORY":/data "$SINGULARITY_IMAGE" --taxon_id "$TAXON_ID"
+singularity run --bind <output directory>:/data <Singularity image path> --taxon_id <taxonomy ID>
 
 # download metadata in CSV format
-SINGULARITY_IMAGE=<Singularity image path>; OUTPUT_DIRECTORY=<output directory>; TAXON_ID=<taxonomy ID>; singularity run --bind "$OUTPUT_DIRECTORY":/data "$SINGULARITY_IMAGE" --taxon_id "$TAXON_ID" --file_type CSV
+singularity run --bind <output directory>:/data <Singularity image path> --taxon_id <taxonomy ID> --file_type CSV
 ```
