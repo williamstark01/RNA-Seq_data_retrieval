@@ -308,7 +308,7 @@ def get_ena_taxon_metadata(
     taxon_id,
     file_type="json",
     fields=original_fields,
-    instrument_platform="illumina",
+    instrument_platform="ILLUMINA",
     library_source="TRANSCRIPTOMIC",
     limit=0,
 ):
@@ -318,17 +318,30 @@ def get_ena_taxon_metadata(
     """
     base_url = "https://www.ebi.ac.uk/ena/portal/api/search"
 
+    search_conditions = [
+        f"tax_tree({taxon_id})",
+        f"instrument_platform={instrument_platform}",
+        f"library_source={library_source}",
+    ]
+    # create a boolean expression string from the search conditions, URL encoding space (" ")
+    search_conditions_string = str.join("%20AND%20", search_conditions)
+    # add URL encoded double quotes ('"') around the search conditions string
+    query = f"%22{search_conditions_string}%22"
+
     parameters = {
-        "query": f"tax_tree({taxon_id})",
+        "query": query,
         "result": "read_run",
         "format": file_type,
-        "instrument_platform": instrument_platform,
-        "library_source": library_source,
         "limit": limit,
         "fields": str.join(",", fields),
     }
 
-    response = requests.get(base_url, params=parameters)
+    parameters_string = str.join(
+        "&", [f"{parameter}={value}" for parameter, value in parameters.items()]
+    )
+    query_url = f"{base_url}?{parameters_string}"
+
+    response = requests.get(query_url)
     response.raise_for_status()
 
     return response.content
@@ -337,11 +350,15 @@ def get_ena_taxon_metadata(
 def download_taxon_metadata(
     taxon_id, file_type="json", fields=original_fields, output_directory="."
 ):
-    taxon_metadata = get_ena_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
+    taxon_metadata = get_ena_taxon_metadata(
+        taxon_id, file_type=file_type, fields=fields
+    )
 
     extension = file_type.lower()
 
-    taxon_metadata_path = pathlib.Path(output_directory) / f"taxon_id={taxon_id}.{extension}"
+    taxon_metadata_path = (
+        pathlib.Path(output_directory) / f"taxon_id={taxon_id}.{extension}"
+    )
     with open(taxon_metadata_path, "wb+") as file:
         file.write(taxon_metadata)
 
