@@ -306,7 +306,7 @@ all_fields = [
 
 def get_taxon_metadata(
     taxon_id,
-    file_type="JSON",
+    file_type="json",
     fields=original_fields,
     instrument_platform="illumina",
     library_source="TRANSCRIPTOMIC",
@@ -335,7 +335,7 @@ def get_taxon_metadata(
 
 
 def download_taxon_metadata(
-    taxon_id, file_type="JSON", fields=original_fields, output_directory="."
+    taxon_id, file_type="json", fields=original_fields, output_directory="."
 ):
     taxon_metadata = get_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
 
@@ -359,8 +359,9 @@ def main():
     argument_parser.add_argument(
         "--file_type",
         type=str,
-        default="JSON",
-        help="output file type, one of [JSON, CSV]",
+        choices=["json", "csv"],
+        default="json",
+        help="output file type",
     )
     argument_parser.add_argument(
         "--output_directory",
