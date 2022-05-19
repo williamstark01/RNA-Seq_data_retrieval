@@ -16,9 +16,10 @@ python download_ena_samples.py --taxon_id 8030
 arguments
 ```
   --taxon_id TAXON_ID   taxonomic ID
-  --file_type FILE_TYPE
-                        output file type, one of [JSON, CSV]
+  --file_type {json,csv}
+                        output file type
   --output_directory OUTPUT_DIRECTORY
+                        output directory path
 ```
 
 
