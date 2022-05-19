@@ -304,7 +304,7 @@ all_fields = [
 ]
 
 
-def get_taxon_metadata(
+def get_ena_taxon_metadata(
     taxon_id,
     file_type="json",
     fields=original_fields,
@@ -337,7 +337,7 @@ def get_taxon_metadata(
 def download_taxon_metadata(
     taxon_id, file_type="json", fields=original_fields, output_directory="."
 ):
-    taxon_metadata = get_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
+    taxon_metadata = get_ena_taxon_metadata(taxon_id, file_type=file_type, fields=fields)
 
     extension = file_type.lower()
 
